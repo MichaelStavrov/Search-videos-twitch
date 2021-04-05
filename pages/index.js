@@ -1,19 +1,17 @@
+import { useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import Link from 'next/link'
-import { useState } from "react";
-import { Favorites } from '../Components/Favorites'
 
 const Container = styled.div`
   margin: 0 auto;
   max-width: 900px;
 `;
 
-const Header = styled.div `
+const Header = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-`
+`;
 
 const Form = styled.form`
   padding: 10px 20px;
@@ -24,10 +22,6 @@ const Form = styled.form`
   border-radius: 5px;
   box-shadow: 0 0 2px rgb(0, 0, 0, 0.4);
 `;
-
-// const Favorites = styled.div `
-
-// `
 
 const Label = styled.label`
   margin-right: 30px;
@@ -146,26 +140,6 @@ const PreviewWrap = styled.div`
   }
 `;
 
-// 'w1m23bs3znxmhjb0xp3ddzihui3j62' 'id'
-// 'gf17j36ureiaqmzuobg6qrzitps99b' 'secret code'
-
-// 'jdlgsg2zo59t07pq4tylfc87uy34mp' 'access_token'
-
-// curl --location --request GET 'https://api.twitch.tv/helix/search/channels?query=a_seagull' \
-// --header 'client-id: w1m23bs3znxmhjb0xp3ddzihui3j62' \
-// --header 'Authorization: Bearer jdlgsg2zo59t07pq4tylfc87uy34mp'
-
-// broadcaster_language: "ru"
-// broadcaster_login: "dota2ti_ru_2"
-// display_name: "dota2ti_ru_2"
-// game_id: "29595"
-// id: "65504150"
-// is_live: false
-// started_at: ""
-// tag_ids: []
-// thumbnail_url: "https://static-cdn.jtvnw.net/jtv_user_pictures/e38369df-ee6c-4cfc-9eb3-cefd8ab2dfe6-profile_image-300x300.png"
-// title: "Повтор | The International 9 | Группов
-
 function getUsersNyUsername(name) {
   return axios
     .get(`https://api.twitch.tv/helix/search/channels?query=${name}`, {
@@ -191,33 +165,24 @@ function getVideosByUserId(userId) {
     );
 }
 
-// getVideosByUserId("23798553").then(console.log);
-// getUsersNyUsername("MJRAMON").then(console.log);
-
-// id: "438322552"
-
-// curl -X GET 'https://api.twitch.tv/helix/videos?id=234482848' \
-// -H 'Authorization: Bearer 2gbdx6oar67tqtcmt49t3wpcgycthx' \
-// -H 'Client-Id: uo6dggojyb8d6soh92zknwmi5ej1q2'
-
 export default function Home() {
   const [value, setValue] = useState("");
   const [users, setUsers] = useState([]);
   const [inFocus, setInFocus] = useState(false);
   const [userId, setUserId] = useState("");
   const [videos, setVideos] = useState([]);
-  const [favorites, setFavorites] = useState([]);
-  console.log(favorites);
-  function addToFavorites(video) {
-    if (!favorites.find((v) => v === video)) {
-      setFavorites((prev) => [...prev, video]);
-    }
-  }
+  // const [favorites, setFavorites] = useState([]);
 
-  function removeVideoFromFavorites(id) {
-    const newFavorites = favorites.filter((video) => video.id !== id);
-    setFavorites(newFavorites);
-  }
+  // function addToFavorites(video) {
+  //   if (!favorites.find((v) => v === video)) {
+  //     setFavorites((prev) => [...prev, video]);
+  //   }
+  // }
+
+  // function removeVideoFromFavorites(id) {
+  //   const newFavorites = favorites.filter((video) => video.id !== id);
+  //   setFavorites(newFavorites);
+  // }
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -270,11 +235,6 @@ export default function Home() {
             </Search>
             <Button type="submit">Найти</Button>
           </Form>
-          <Link href='/favorites'>
-          <div>Favorites</div>
-
-          </Link>
-          
         </Header>
 
         <PreviewsContainer>
@@ -293,13 +253,6 @@ export default function Home() {
                   <Capture />
                   <Title>{video.title}</Title>
                 </a>
-                <button
-                  onClick={() => addToFavorites(video)}
-                  type="button"
-                  style={{ position: "absolute", top: 0, right: 0, cursor: 'pointer' }}
-                >
-                  Add to favorite
-                </button>
               </PreviewWrap>
             ))}
         </PreviewsContainer>
